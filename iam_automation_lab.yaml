@@ -82,22 +82,22 @@ Resources:
       Type: "String"
       Value: !Ref user1Email
 
-  IAMUser10:
+  IAMUser11:
     Type: AWS::IAM::User
     Properties:
-      UserName: tenUser
+      UserName: elevenUser
       Groups:
         - Ref: EC2IamGroupWithS3ReadAccess
       LoginProfile:
         Password: !Sub "{{resolve:secretsmanager:${OneTimePasswordSecretsManager}::password}}"
         PasswordResetRequired: true
 
-  User10EmailParam:
+  User11EmailParam:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: "/tenUser/email"
+      Name: "/elevenUser/email"
       Type: "String"
-      Value: ten@mail.com
+      Value: eleven@mail.com
 
   User2EmailParam:
     Type: "AWS::SSM::Parameter"
@@ -146,7 +146,7 @@ Resources:
                   'body': json.dumps({
                       'userName': username,
                       'email': email
-                  )
+                  })
               }
 
   LambdaExecutionRole:
