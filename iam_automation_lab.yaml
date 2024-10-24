@@ -116,6 +116,23 @@ Resources:
       Type: "String"
       Value: tryUserUser@gmail.com
 
+  IAMUser5:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: fiveUser
+      Groups:
+        - Ref: EC2IamGroupWithS3ReadAccess
+      LoginProfile:
+        Password: !Sub "{{resolve:secretsmanager:${OneTimePasswordSecretsManager}::password}}"
+        PasswordResetRequired: true
+
+  User5EmailParam:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "/fiveUser/email"
+      Type: "String"
+      Value: fiveUserUser@gmail.com
+
   User2EmailParam:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -137,30 +154,7 @@ Resources:
           import json
 
           def handler(event, context):
-              ssm = boto3.client('ssm')
-              secretsmanager = boto3.client('secretsmanager')
-              
-              # Extract the user name from the event details
-              username = event['detail']['requestParameters']['userName']
-              
-              # Construct the parameter store names for the user
-              user_para_store_value = f"/{username}/email"
-
-              try:
-                  # Fetch the user's email from SSM
-                  user_email = ssm.get_parameter(Name=user_para_store_value)['Parameter']['Value']
-                  
-                  secret_id = MySecretForIAMUsers
-
-                  # Fetch the password from Secrets Manager
-                  secret = secretsmanager.get_secret_value(SecretId=secret_id)
-                  password = json.loads(secret['SecretString'])['password']
-                  
-                  # Print credentials
-                  print(f"Email: {user_email}, Password: {password}")
-                  
-              except Exception as e:
-                  print(f"Error fetching data for user {username}: {str(e)}")
+              print(event)
 
   LambdaExecutionRole:
     Type: "AWS::IAM::Role"
