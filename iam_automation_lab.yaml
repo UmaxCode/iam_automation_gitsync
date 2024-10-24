@@ -133,6 +133,23 @@ Resources:
       Type: "String"
       Value: fiveUserUser@gmail.com
 
+  IAMUser6:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: sixUser
+      Groups:
+        - Ref: EC2IamGroupWithS3ReadAccess
+      LoginProfile:
+        Password: !Sub "{{resolve:secretsmanager:${OneTimePasswordSecretsManager}::password}}"
+        PasswordResetRequired: true
+
+  User6EmailParam:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "/sixUser/email"
+      Type: "String"
+      Value: sixUserUser@gmail.com
+
   User2EmailParam:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -154,7 +171,33 @@ Resources:
           import json
 
           def handler(event, context):
-              print(event)
+              ssm = boto3.client('ssm')
+              secrets_manager = boto3.client('secretsmanager')
+              
+              # Parse the event to extract the username from 'detail' section
+              user_name = event['detail']['requestParameters']['userName']
+              email_param = f"/user/emails/{user_name.lower()}"
+
+              email_response = ssm.get_parameter(Name=email_param, WithDecryption=False)
+              email = email_response['Parameter']['Value']
+
+              secret_name = "MySecretForIAMUsers"
+              secret_response = secrets_manager.get_secret_value(SecretId=secret_name)
+              secret = json.loads(secret_response['SecretString'])
+              password = secret['password']
+
+              print(f"User Name: {user_name}")
+              print(f"Email: {email}")
+              print(f"Password: {password}")
+
+              return {
+                  'statusCode': 200,
+                  'body': json.dumps({
+                      'userName': user_name,
+                      'email': email,
+                      'password': password}
+                  )
+              }
 
   LambdaExecutionRole:
     Type: "AWS::IAM::Role"
