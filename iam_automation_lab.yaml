@@ -82,6 +82,23 @@ Resources:
       Type: "String"
       Value: !Ref user1Email
 
+  IAMUser3:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: testUser
+      Groups:
+        - Ref: EC2IamGroupWithS3ReadAccess
+      LoginProfile:
+        Password: !Sub "{{resolve:secretsmanager:${OneTimePasswordSecretsManager}::password}}"
+        PasswordResetRequired: true
+
+  User3EmailParam:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "/testUser/email"
+      Type: "String"
+      Value: testUser@gmail.com
+
   User2EmailParam:
     Type: "AWS::SSM::Parameter"
     Properties:
