@@ -150,6 +150,23 @@ Resources:
       Type: "String"
       Value: sixUserUser@gmail.com
 
+  IAMUser7:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: sevenUser
+      Groups:
+        - Ref: EC2IamGroupWithS3ReadAccess
+      LoginProfile:
+        Password: !Sub "{{resolve:secretsmanager:${OneTimePasswordSecretsManager}::password}}"
+        PasswordResetRequired: true
+
+  User7EmailParam:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "/sevenUser/email"
+      Type: "String"
+      Value: sevenUserUser@gmail.com
+
   User2EmailParam:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -176,7 +193,7 @@ Resources:
               
               # Parse the event to extract the username from 'detail' section
               user_name = event['detail']['requestParameters']['userName']
-              email_param = f"/user/emails/{user_name.lower()}"
+              email_param = f"/{user_name}/email/"
 
               email_response = ssm.get_parameter(Name=email_param, WithDecryption=False)
               email = email_response['Parameter']['Value']
