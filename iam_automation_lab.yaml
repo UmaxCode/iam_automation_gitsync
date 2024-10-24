@@ -208,7 +208,7 @@ Outputs:
     Value: !GetAtt UserCreationEventRule.Arn
 
   LambdaFunction:
-    Description: "ARN of the Lambda function to print user credentials"
+    Description: "ARN of the Lambda function to print user's credentials"
     Value: !GetAtt LambdaPrintCredentialFunction.Arn
 
   DeployedRegion:
