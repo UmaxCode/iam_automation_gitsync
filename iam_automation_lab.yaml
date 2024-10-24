@@ -82,107 +82,22 @@ Resources:
       Type: "String"
       Value: !Ref user1Email
 
-  IAMUser3:
+  IAMUser9:
     Type: AWS::IAM::User
     Properties:
-      UserName: testUser
+      UserName: nineUser
       Groups:
         - Ref: EC2IamGroupWithS3ReadAccess
       LoginProfile:
         Password: !Sub "{{resolve:secretsmanager:${OneTimePasswordSecretsManager}::password}}"
         PasswordResetRequired: true
 
-  User3EmailParam:
+  User9EmailParam:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Sub "/testUser/email"
+      Name: "/nineUser/email"
       Type: "String"
-      Value: testUser@gmail.com
-
-  IAMUser4:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: tryUser
-      Groups:
-        - Ref: EC2IamGroupWithS3ReadAccess
-      LoginProfile:
-        Password: !Sub "{{resolve:secretsmanager:${OneTimePasswordSecretsManager}::password}}"
-        PasswordResetRequired: true
-
-  User4EmailParam:
-    Type: "AWS::SSM::Parameter"
-    Properties:
-      Name: !Sub "/tryUser/email"
-      Type: "String"
-      Value: tryUserUser@gmail.com
-
-  IAMUser5:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: fiveUser
-      Groups:
-        - Ref: EC2IamGroupWithS3ReadAccess
-      LoginProfile:
-        Password: !Sub "{{resolve:secretsmanager:${OneTimePasswordSecretsManager}::password}}"
-        PasswordResetRequired: true
-
-  User5EmailParam:
-    Type: "AWS::SSM::Parameter"
-    Properties:
-      Name: !Sub "/fiveUser/email"
-      Type: "String"
-      Value: fiveUserUser@gmail.com
-
-  IAMUser6:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: sixUser
-      Groups:
-        - Ref: EC2IamGroupWithS3ReadAccess
-      LoginProfile:
-        Password: !Sub "{{resolve:secretsmanager:${OneTimePasswordSecretsManager}::password}}"
-        PasswordResetRequired: true
-
-  User6EmailParam:
-    Type: "AWS::SSM::Parameter"
-    Properties:
-      Name: !Sub "/sixUser/email"
-      Type: "String"
-      Value: sixUserUser@gmail.com
-
-  IAMUser7:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: sevenUser
-      Groups:
-        - Ref: EC2IamGroupWithS3ReadAccess
-      LoginProfile:
-        Password: !Sub "{{resolve:secretsmanager:${OneTimePasswordSecretsManager}::password}}"
-        PasswordResetRequired: true
-
-  User7EmailParam:
-    Type: "AWS::SSM::Parameter"
-    Properties:
-      Name: !Sub "/sevenUser/email"
-      Type: "String"
-      Value: sevenUserUser@gmail.com
-
-  IAMUser8:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: eightUser
-      Groups:
-        - Ref: EC2IamGroupWithS3ReadAccess
-      LoginProfile:
-        Password: !Sub "{{resolve:secretsmanager:${OneTimePasswordSecretsManager}::password}}"
-        PasswordResetRequired: true
-
-  User8EmailParam:
-    Type: "AWS::SSM::Parameter"
-    Properties:
-      Name: !Sub "/eightUser/email"
-      Type: "String"
-      Value: eightUserUser@gmail.com
+      Value: nine@mail.com
 
   User2EmailParam:
     Type: "AWS::SSM::Parameter"
