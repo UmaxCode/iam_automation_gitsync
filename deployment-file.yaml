@@ -1,4 +1,3 @@
-template-file-path: ./iam_automation_lab.yml
-tags:
-  Name: 'gitsync'
-  Project: 'Demo'
+template-file-path: iam_automation_lab.yaml
+parameters: {}
+tags: {}
