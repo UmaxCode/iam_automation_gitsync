@@ -99,6 +99,23 @@ Resources:
       Type: "String"
       Value: testUser@gmail.com
 
+  IAMUser4:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: tryUser
+      Groups:
+        - Ref: EC2IamGroupWithS3ReadAccess
+      LoginProfile:
+        Password: !Sub "{{resolve:secretsmanager:${OneTimePasswordSecretsManager}::password}}"
+        PasswordResetRequired: true
+
+  User4EmailParam:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "/tryUser/email"
+      Type: "String"
+      Value: tryUserUser@gmail.com
+
   User2EmailParam:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -133,8 +150,10 @@ Resources:
                   # Fetch the user's email from SSM
                   user_email = ssm.get_parameter(Name=user_para_store_value)['Parameter']['Value']
                   
+                  secret_id = MySecretForIAMUsers
+
                   # Fetch the password from Secrets Manager
-                  secret = secretsmanager.get_secret_value(SecretId=event['secretId'])
+                  secret = secretsmanager.get_secret_value(SecretId=secret_id)
                   password = json.loads(secret['SecretString'])['password']
                   
                   # Print credentials
