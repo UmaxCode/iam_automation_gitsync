@@ -1,8 +1,9 @@
 template-file-path: iam_automation_lab.yaml
-parameters: {
+parameters:
   user1Name: kwame
   user2Name: kwasi
   user2Email: kwasi@gmail.com
   user1Email: kwame@gmail.com
-}
-tags: {}
+tags:
+  Name: 'gitsync'
+  Project: 'Demo'
