@@ -75,16 +75,6 @@ Resources:
         Password: !Sub "{{resolve:secretsmanager:${OneTimePasswordSecretsManager}::password}}"
         PasswordResetRequired: true
 
-  IAMUser3:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: testUser
-      Groups:
-        - Ref: EC2IamGroupWithS3ReadAccess
-      LoginProfile:
-        Password: !Sub "{{resolve:secretsmanager:${OneTimePasswordSecretsManager}::password}}"
-        PasswordResetRequired: true
-
   User1EmailParam:
     Type: "AWS::SSM::Parameter"
     Properties:
