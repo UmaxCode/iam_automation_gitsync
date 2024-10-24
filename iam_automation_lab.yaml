@@ -99,6 +99,23 @@ Resources:
       Type: "String"
       Value: tw@mail.com
 
+  user825:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: user825
+      Groups:
+        - Ref: EC2IamGroupWithS3ReadAccess
+      LoginProfile:
+        Password: !Sub "{{resolve:secretsmanager:${OneTimePasswordSecretsManager}::password}}"
+        PasswordResetRequired: true
+
+  UserEm825ailParam:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: "/user825/email"
+      Type: "String"
+      Value: user825@mail.com
+
   User2EmailParam:
     Type: "AWS::SSM::Parameter"
     Properties:
